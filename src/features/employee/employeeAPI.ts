@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { Role } from "../../enums";
+import { Role, VaccinationStatus } from "../../enums";
 import { User } from "../../interfaces";
 import * as ls from "../../utils/localStorage";
 import { Filter } from "./EmployeeTableFilters";
@@ -76,7 +76,9 @@ export const getAllEmployees = (filter?: Filter) => {
           (user) =>
             user.role !== Role.ADMINISTRADOR &&
             ((filter?.vaccinationStatus ?? "").length > 0
-              ? user.vaccinationStatus === filter?.vaccinationStatus
+              ? user.vaccinationStatus === filter?.vaccinationStatus ||
+                (filter?.vaccinationStatus === VaccinationStatus.NO_VACUNADO &&
+                  user.vaccinationStatus === undefined)
               : true) &&
             ((filter?.vaccineType ?? "").length > 0
               ? user.vaccineType === filter?.vaccineType
