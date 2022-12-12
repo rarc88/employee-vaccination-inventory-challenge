@@ -1,57 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { Fragment } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useAppSelector } from "./app/hooks";
+import { Layout } from "./components/layout/Layout";
+import { Role } from "./enums";
+import { EmployeeForm } from "./features/employee/EmployeeForm";
+import { Employee } from "./features/employee/Employee";
+import { Home } from "./features/home/Home";
+import { Login } from "./features/login/Login";
+import { auth, user } from "./features/login/loginSlice";
 
 function App() {
+  const isAuth = useAppSelector(auth);
+  const userData = useAppSelector(user);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <BrowserRouter>
+      {(() => {
+        /**
+         * Control de acceso a la aplicación
+         * Se renderizan las rutas según el rol
+         * del usuario logeado
+         */
+        if (isAuth) {
+          return (
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                {userData?.role === Role.ADMINISTRADOR ? (
+                  <Fragment>
+                    <Route path="/employees" element={<Employee />} />
+                    <Route path="/employees/:id" element={<EmployeeForm />} />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <Route path="/information" element={<EmployeeForm />} />
+                  </Fragment>
+                )}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Layout>
+          );
+        } else {
+          return (
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </Routes>
+          );
+        }
+      })()}
+    </BrowserRouter>
   );
 }
 

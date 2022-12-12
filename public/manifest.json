@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Inventario de vacunación de empleados",
+  "name": "Inventario de vacunación de empleados",
   "icons": [
     {
       "src": "favicon.ico",
