@@ -19,17 +19,17 @@ describe("Inicio de sesión", () => {
   ls.write("users", defaultUser);
 
   it("login con credenciales invalidas", async () => {
-    const store = mockStore({});
+    const store = mockStore(initialState);
     const actions = await store.dispatch(
-      postLogin({ username: "admin", password: "invalid" })
+      postLogin({ username: "admin", password: "invalid" }) as any
     );
     expect(actions.type).toEqual("login/tryAuth/rejected");
   });
 
   it("login con credenciales correctas", async () => {
-    const store = mockStore({});
+    const store = mockStore(initialState);
     const actions = await store.dispatch(
-      postLogin({ username: "admin", password: "admin" })
+      postLogin({ username: "admin", password: "admin" }) as any
     );
     expect(actions.type).toEqual("login/tryAuth/fulfilled");
   });

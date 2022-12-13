@@ -14,8 +14,8 @@ export interface LoginData {
 }
 
 const initialValues: LoginData = {
-  username: "admin",
-  password: "admin",
+  username: "",
+  password: "",
 };
 
 export const Login = () => {

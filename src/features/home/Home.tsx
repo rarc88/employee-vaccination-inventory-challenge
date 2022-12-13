@@ -24,7 +24,7 @@ export const Home = () => {
             <li>Almacenamiento temporal en el LocalStorage</li>
           </ul>
           <p className="lead">
-            <strong>Nota:</strong> En el formulario de registro que uso un input
+            <strong>Nota:</strong> En el formulario de registro se uso un input
             de tipo texto para la contraseña (sin encriptación) solo para
             facilitar la obtención de esta en el reto.
           </p>
